@@ -1,0 +1,8 @@
+output/
+*.vcd
+*.vvp
+*.gtkw~
+
+VLSI Project Ideas.md
+
+hello.sh

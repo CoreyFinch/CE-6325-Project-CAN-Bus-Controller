@@ -1,0 +1,12 @@
+{
+  // The extension lints one file at a time, so full_adder_tb.v on its own
+  // cannot see full_adder. -y adds a module library search path: iverilog
+  // resolves an unknown module <name> by looking for <dir>/<name>.v.
+  "verilog.linting.linter": "iverilog",
+  "verilog.linting.iverilog.arguments": "-y src -y testbench",
+  "verilog.linting.iverilog.includePath": ["src", "testbench"],
+
+  // false = run from the workspace root, which is what makes the
+  // relative "src" / "testbench" paths above resolve correctly.
+  "verilog.linting.iverilog.runAtFileLocation": false
+}
