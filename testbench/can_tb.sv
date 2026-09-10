@@ -5,9 +5,7 @@ module can_bus_controller_tb ();
     reg reset;                   
     reg start;                   // pulse to request frame transmission
     reg [ID_WIDTH-1:0] id;       // 11-bit Unique Identifier
-    reg [DLC_WIDTH-1:0] dlc;     // Data Length Code, number of data bytes (0-8)
     reg [DATA_WIDTH-1:0] data;   // Payload data, MSB of byte 0 sent first
-    reg [CRC_WIDTH-1:0] crc;     // CRC sequence, 15 bits
     reg ack_in;                  // bus level sampled during the ACK slot
     
     /* Outputs */
@@ -23,9 +21,7 @@ module can_bus_controller_tb ();
         .reset(reset),
         .start(start),
         .id(id),
-        .dlc(dlc),
         .data(data),
-        .crc(crc),
         .ack_in(ack_in),
         .tx(tx),
         .busy(busy),
@@ -34,8 +30,13 @@ module can_bus_controller_tb ();
         .state_dbg(state_dbg)
     );
 
-    initial clk = 1'b0;
-
+    initial begin
+      clk = 1'b0;
+      reset = 1'b1;	// Reset FSM for initialization
+      id = 11'h7B;
+      data = 64'h000055EE;
+      ack_in = 1'b1;  // Resesive (1) ==> Transmitter
+    end
     always #5 clk <= ~clk;
     
     // Testbench signals
@@ -43,13 +44,13 @@ module can_bus_controller_tb ();
         // Dump waveform to VCD file for GTKWave
       	$dumpfile("dump.vcd");
         $dumpvars(0, can_bus_controller_tb);
-
-        reset = 1;
-        #6 reset = 0;
-
-        // Monitor signals for debugging
-        // $monitor();
-
-        #10 $finish; // Finish simulation
+		
+        #12 reset = 0;
+      	//while (done == 1'b0) // Wait until bit-stream is done
+      	@(posedge clk) start = 1;
+      	@(posedge clk) start = 0;
+	
+        
+    	#1000 $finish; // Finish simulation
     end
 endmodule

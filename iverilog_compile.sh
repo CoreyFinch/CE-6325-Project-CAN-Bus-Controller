@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# Bash version of script.cmd, for the Linux/NoMachine environment.
 set -euo pipefail
 
 # Load variables from .env (set -a exports everything defined in between)
@@ -9,13 +10,9 @@ set +a
 mkdir -p "$(dirname "$OUTPUT")" "$(dirname "$VCD_FILE")"
 
 # Collect every .v file under SRC_DIR and TB_DIR into an array.
-# nullglob makes a non-matching pattern vanish instead of staying literal.
-shopt -s nullglob
-SOURCES=("$SRC_DIR"/*.v "$TB_DIR"/*.v)
-shopt -u nullglob
-
+SOURCES=("$SRC_DIR"/*.sv "$TB_DIR"/*.sv)
 if (( ${#SOURCES[@]} == 0 )); then
-    echo "error: no .v files found in $SRC_DIR/ or $TB_DIR/" >&2
+    echo "error: no .sv files found in $SRC_DIR/ or $TB_DIR/" >&2
     exit 1
 fi
 
