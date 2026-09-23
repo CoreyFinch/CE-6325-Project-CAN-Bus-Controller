@@ -1,14 +1,13 @@
 /*
     CAN 2.0B bus controller - bit-stream FSM
     
-    Missing features:
+    Unincluded features:
     - bit stuffing
     - CRC generation
     - error handling
     
 */
-
-`include "Params.sv"
+`include "../src/Params.v"
 
 module CAN_BUS (
     /* Inputs */
