@@ -1,8 +1,3 @@
 output/
-*.vcd
-*.vvp
-*.gtkw~
-
-VLSI Project Ideas.md
-
-hello.sh
+DEL/
+docs/VLSI Project Ideas.md
